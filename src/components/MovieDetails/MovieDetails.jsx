@@ -13,14 +13,13 @@ import s from './MovieDetails.module.css';
 
 function MovieDetails() {
   const [movieById, setMovieById] = useState(null);
-  const [backLinkHref, setBackLinkHref] = useState('/');
   const [isLoading, setIsLoading] = useState(true);
   const { movieId } = useParams();
   const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     fetchMovieById(movieId);
-    setBackLinkHref(location.state?.from ?? '/');
   }, [movieId]);
 
   async function fetchMovieById(movieId) {
@@ -75,12 +74,20 @@ function MovieDetails() {
       )}
       <ul className={s.links}>
         <li>
-          <NavLink className={s.button} to="cast">
+          <NavLink
+            className={s.button}
+            to="cast"
+            state={{ from: location.state?.from }}
+          >
             Cast
           </NavLink>
         </li>
         <li>
-          <NavLink className={s.button} to="reviews">
+          <NavLink
+            className={s.button}
+            to="reviews"
+            state={{ from: location.state?.from }}
+          >
             Reviews
           </NavLink>
         </li>

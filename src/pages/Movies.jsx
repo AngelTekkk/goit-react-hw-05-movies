@@ -18,19 +18,19 @@ const Movies = () => {
     if (searchQuery) {
       fetchMoviesByQuery();
     }
-  }, [searchQuery]);
 
-  async function fetchMoviesByQuery() {
-    try {
-      setIsLoading(true);
-      const movies = await themoviedbAPI.fetchByQuery(searchQuery);
-      setMoviesByQuery(movies.data.results);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+    async function fetchMoviesByQuery() {
+      try {
+        setIsLoading(true);
+        const movies = await themoviedbAPI.fetchByQuery(searchQuery);
+        setMoviesByQuery(movies.data.results);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
+  }, [searchQuery]);
 
   const handleSearchQuery = searchQuery => {
     if (searchQuery !== '' && searchQuery !== searchParams.get('query')) {
