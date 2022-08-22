@@ -5,23 +5,23 @@ import {
   Link,
   useParams,
   useLocation,
-  useNavigate,
 } from 'react-router-dom';
 import { themoviedbAPI } from 'services/themoviedbAPI';
+import Loader from 'components/Loader/Loader';
 import noposter from '../../assets/images/noposter.jpg';
 import s from './MovieDetails.module.css';
 
-function MovieDetails(movie) {
+function MovieDetails() {
   const [movieById, setMovieById] = useState(null);
+  const [backLinkHref, setBackLinkHref] = useState('/');
+  const [isLoading, setIsLoading] = useState(true);
   const { movieId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
-  const backLinkHref = location.state?.from ?? '/movies';
-  console.log(backLinkHref);
 
   useEffect(() => {
     fetchMovieById(movieId);
-  }, []);
+    setBackLinkHref(location.state?.from ?? '/');
+  }, [movieId]);
 
   async function fetchMovieById(movieId) {
     try {
@@ -29,15 +29,17 @@ function MovieDetails(movie) {
       setMovieById(movie.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <>
-      {/* <Link to={backLinkHref}>Back to list</Link> */}
-      <button type="button" onClick={() => navigate(backLinkHref)}>
-        Back
-      </button>
+      <Link className={s.link} to={backLinkHref}>
+        Back to list
+      </Link>
+      {isLoading && <Loader />}
       {movieById && (
         <div className={s.movieCard}>
           <img
@@ -83,7 +85,7 @@ function MovieDetails(movie) {
           </NavLink>
         </li>
       </ul>
-      <Suspense fallback={<div>Loading subpage...</div>}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
     </>

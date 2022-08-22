@@ -1,28 +1,34 @@
-import { Suspense, useState, useEffect } from 'react';
-import { Outlet, Link, useParams, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import Loader from 'components/Loader/Loader';
 import { themoviedbAPI } from 'services/themoviedbAPI';
 import avatar from '../../assets/images/avatar-placeholder-1-225x300-1-200x300.png';
 import s from './Cast.module.css';
 
 function Cast() {
   const [movieCastById, setMovieCastById] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { movieId } = useParams();
 
   useEffect(() => {
     fetchMovieCastById(movieId);
-  }, []);
+  }, [movieId]);
 
   async function fetchMovieCastById(movieId) {
     try {
+      setIsLoading(true);
       const cast = await themoviedbAPI.fetchCastById(movieId);
       setMovieCastById(cast.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <>
+      {isLoading && <Loader />}
       {movieCastById && (
         <ul className={s.castCards}>
           {movieCastById.cast.map(actor => {

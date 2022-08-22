@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useResolvedPath } from 'react-router-dom';
+import React, { useState, useEffect, lazy } from 'react';
 import { themoviedbAPI } from 'services/themoviedbAPI';
-import MoviesList from 'components/MoviesList/MoviesList';
+import Loader from 'components/Loader/Loader';
+
+const MoviesList = lazy(() => import('components/MoviesList/MoviesList'));
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchTrendingMovies();
@@ -16,6 +18,8 @@ const Home = () => {
       setTrendingMovies(movies.data.results);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -24,7 +28,7 @@ const Home = () => {
       <h1 style={{ textAlign: 'center', color: '#2a2a2a', margin: '10px 0' }}>
         Trending today
       </h1>
-      <MoviesList moviesList={trendingMovies} />
+      {isLoading ? <Loader /> : <MoviesList moviesList={trendingMovies} />}
     </main>
   );
 };

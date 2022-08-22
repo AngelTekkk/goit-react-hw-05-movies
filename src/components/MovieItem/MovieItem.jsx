@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import noposter from '../../assets/images/noposter.jpg';
 import s from './MovieItem.module.css';
@@ -21,5 +22,13 @@ function MovieItem({ movie }) {
     </li>
   );
 }
+
+MovieItem.propTypes = {
+  movie: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    backdrop_path: PropTypes.string,
+    original_title: PropTypes.string.isRequired,
+  }),
+};
 
 export default MovieItem;

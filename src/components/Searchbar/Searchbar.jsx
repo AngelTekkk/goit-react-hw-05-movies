@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useRef, useState } from 'react';
 import s from './Searchbar.module.css';
 
 function Searchbar({ onSubmit }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const inputEl = useRef(null);
 
   const handleInput = ({ target: { name, value } }) => {
     setSearchQuery(value);
@@ -10,7 +12,15 @@ function Searchbar({ onSubmit }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit(searchQuery);
+    const trimedSearchQuery = searchQuery.trim();
+    if (trimedSearchQuery === '') {
+      inputEl.current.focus();
+      inputEl.current.placeholder = 'Please enter some movie title';
+      reset();
+      return;
+    }
+    inputEl.current.placeholder = 'Enter movie title';
+    onSubmit(trimedSearchQuery);
     reset();
   };
 
@@ -21,6 +31,7 @@ function Searchbar({ onSubmit }) {
   return (
     <form className={s.form} onSubmit={handleSubmit}>
       <input
+        ref={inputEl}
         className={s.input}
         name="searchQuery"
         value={searchQuery}
@@ -36,5 +47,7 @@ function Searchbar({ onSubmit }) {
     </form>
   );
 }
+
+Searchbar.propTypes = { onSubmit: PropTypes.func.isRequired };
 
 export default Searchbar;
