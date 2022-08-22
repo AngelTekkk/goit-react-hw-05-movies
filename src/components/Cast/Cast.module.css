@@ -1,0 +1,30 @@
+.castCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+  gap: 20px;
+}
+
+.castCard {
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.castCard:hover,
+.castCard:focus {
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  scale: 1.03;
+}
+
+.img {
+  border-radius: 5px;
+}
+
+.text {
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+}
