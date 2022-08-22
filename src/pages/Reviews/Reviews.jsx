@@ -40,15 +40,17 @@ function Reviews() {
                       <img
                         width="40"
                         src={review.author_details.avatar_path.slice(1)}
+                        alt={review.author}
                       />
                     ) : (
                       <img
                         width="40"
                         src={`https://image.tmdb.org/t/p/w500${review.author_details.avatar_path}`}
+                        alt={review.author}
                       />
                     )
                   ) : (
-                    <img width="40" src={noavatar} />
+                    <img width="40" src={noavatar} alt={review.author} />
                   )}
                   <h3 className={s.title}>{review.author}</h3>
                 </div>

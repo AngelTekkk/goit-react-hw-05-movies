@@ -16,6 +16,7 @@ function MovieItem({ movie }) {
               ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
               : noposter
           }
+          alt={movie.original_title}
         />
         <p className={s.text}>{movie.original_title}</p>
       </Link>

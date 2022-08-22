@@ -42,6 +42,7 @@ function Cast() {
                       ? `https://image.tmdb.org/t/p/w500${actor.profile_path}`
                       : avatar
                   }
+                  alt={actor.name}
                 />
                 <p className={s.text}>{actor.name}</p>
               </li>
