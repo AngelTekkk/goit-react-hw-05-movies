@@ -30,7 +30,7 @@ const Movies = () => {
         setIsLoading(false);
       }
     }
-  }, [searchQuery]);
+  }, [searchQuery, searchParams]);
 
   const handleSearchQuery = searchQuery => {
     if (searchQuery !== '' && searchQuery !== searchParams.get('query')) {
